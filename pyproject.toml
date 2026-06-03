@@ -1,0 +1,20 @@
+[project]
+name = "alter_ego"
+version = "0.1.0"
+description = "My alter ego"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "gradio>=6.15.0",
+    "openai>=1.68.2",
+    "openai-agents>=0.0.15",
+    "pypdf>=6.12.2",
+    "python-dotenv>=1.0.1",
+    "ruff>=0.15.14",
+    "setuptools>=78.1.0",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+]
