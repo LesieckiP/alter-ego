@@ -45,7 +45,7 @@ class ChatAgent:
         reply = response.choices[0].message.content
 
         evaluation_result = evaluation.evaluate(reply, user_message, history, evaluator_system_prompt=self.context.build_evaluator_system_prompt())
-        
+
         if evaluation_result.is_acceptable:
             print("Passed evaluation - returning reply")
         else:
@@ -53,7 +53,7 @@ class ChatAgent:
             print(evaluation_result.feedback)
             reply = self._rerun(reply, user_message, history, evaluation_result.feedback)
         return reply
-    
+
     def handle_tool_calls(self, tool_calls):
         return self.tool_executor.execute(tool_calls)
 
@@ -70,15 +70,12 @@ def main():
     )
 
     chatbot = gr.Chatbot(value=[{"role": "assistant", "content": agent.welcome_message}])
-    custom_css = """
-    .footer { display: none !important; }
-    button[aria-label='Settings'] { display: none !important; }
-    """
 
-    with gr.Blocks(css=custom_css) as demo:
+    with gr.Blocks() as demo:
         gr.ChatInterface(agent.chat, chatbot=chatbot)
 
     demo.launch(
+        footer_links=[],
         server_name="127.0.0.1",
         server_port=7860,
         root_path="/alter-ego",
