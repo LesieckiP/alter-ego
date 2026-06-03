@@ -70,12 +70,19 @@ def main():
     )
 
     chatbot = gr.Chatbot(value=[{"role": "assistant", "content": agent.welcome_message}])
+    custom_css = """
+    .footer { display: none !important; }
+    button[aria-label='Settings'] { display: none !important; }
+    """
 
-    gr.ChatInterface(agent.chat, chatbot=chatbot).launch(
+    with gr.Blocks(css=custom_css) as demo:
+        gr.ChatInterface(agent.chat, chatbot=chatbot)
+
+    demo.launch(
         server_name="127.0.0.1",
         server_port=7860,
         root_path="/alter-ego",
-        share=False
+        share=False,
     )
 
 if __name__ == "__main__":
