@@ -46,6 +46,3 @@ Thumbs.db
 
 # Notebook outputs
 .ipynb_checkpoints/
-
-# Local personal files (optional to commit)
-me/*.pdf
