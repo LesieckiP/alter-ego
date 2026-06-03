@@ -71,7 +71,12 @@ def main():
 
     chatbot = gr.Chatbot(value=[{"role": "assistant", "content": agent.welcome_message}])
 
-    gr.ChatInterface(agent.chat, chatbot=chatbot).launch()
+    gr.ChatInterface(agent.chat, chatbot=chatbot).launch(
+        server_name="127.0.0.1",
+        server_port=7860,
+        root_path="/alter-ego",
+        share=False
+    )
 
 if __name__ == "__main__":
     main()
