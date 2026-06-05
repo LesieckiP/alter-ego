@@ -2,9 +2,10 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import gradio as gr
 import chat_context
-import evaluation
+from evaluation import Evaluator
 from tool_specs import tools
 from tool_executor import ToolExecutor
+from config import Config
 
 class ChatAgent:
 
@@ -15,6 +16,7 @@ class ChatAgent:
         self.welcome_message = context.build_welcome_message()
         self.tools = tools
         self.tool_executor = ToolExecutor()
+        self.evaluator = Evaluator()
 
 
     def _rerun(self, reply, message, history, feedback):
@@ -33,8 +35,8 @@ class ChatAgent:
         done = False
         while not done:
             response = self.client.chat.completions.create(model="gpt-4o-mini", messages=messages, tools=self.tools) # pyright: ignore[reportArgumentType]
-            finish_reasion = response.choices[0].finish_reason
-            if finish_reasion == "tool_calls":
+            finish_reason = response.choices[0].finish_reason
+            if finish_reason == "tool_calls":
                 assistant_message = response.choices[0].message
                 tool_calls = assistant_message.tool_calls
                 results = self.handle_tool_calls(tool_calls)
@@ -44,7 +46,7 @@ class ChatAgent:
                 done = True
         reply = response.choices[0].message.content
 
-        evaluation_result = evaluation.evaluate(reply, user_message, history, evaluator_system_prompt=self.context.build_evaluator_system_prompt())
+        evaluation_result = self.evaluator.evaluate(reply, user_message, history, evaluator_system_prompt=self.context.build_evaluator_system_prompt())
 
         if evaluation_result.is_acceptable:
             print("Passed evaluation - returning reply")
@@ -76,10 +78,10 @@ def main():
 
     demo.launch(
         footer_links=[],
-        server_name="127.0.0.1",
-        server_port=7860,
+        server_name=Config.GRADIO_SERVER_NAME,
+        server_port=Config.GRADIO_SERVER_PORT,
         root_path="/alter-ego",
-        share=False,
+        share=Config.GRADIO_SHARE,
     )
 
 if __name__ == "__main__":
