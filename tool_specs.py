@@ -15,7 +15,7 @@ record_user_details_json = {
 
 record_unknown_question_json = {
     "name": "record_unknown_question",
-    "description": "Use this tool to record a question that the AI alter-ego was not able to understand.",
+    "description": "Use this tool to record a question the AI alter-ego could not answer.",
     "parameters": {
         "type": "object",
         "properties": {

@@ -1,6 +1,6 @@
 # AI Alter Ego
 
-A production-ready personal website chatbot that acts as an AI stand-in for Piotr Lesiecki. Visitors ask it about career, skills, and experience; it answers using live CV and bio data, captures leads via email, and self-heals poor responses through a second LLM judge.
+A production-ready personal website chatbot that acts as an AI stand-in. Visitors ask it about career, skills, and experience; it answers using live CV and bio data, captures leads via email, and self-heals poor responses through a second LLM judge.
 
 ---
 
@@ -22,7 +22,6 @@ User → Gradio UI
 
 ---
 
-## Key Engineering Highlights
 
 ### 1. Dual-LLM Architecture
 Two different LLMs play different roles:

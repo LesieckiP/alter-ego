@@ -1,17 +1,23 @@
+"""Dispatches OpenAI tool-call responses to the appropriate Notifier handler."""
+from __future__ import annotations
+
 import json
 
 from notifier import Notifier
 
 
 class ToolExecutor:
-    def __init__(self, notifier: Notifier | None = None):
+    """Maps LLM function-call responses to concrete handler methods on Notifier."""
+
+    def __init__(self, notifier: Notifier | None = None) -> None:
         self.notifier = notifier or Notifier()
         self.handlers = {
             "record_user_details": self.notifier.record_user_details,
             "record_unknown_question": self.notifier.record_unknown_question,
         }
 
-    def execute(self, tool_calls):
+    def execute(self, tool_calls: list) -> list:
+        """Execute a batch of tool calls and return OpenAI-formatted result messages."""
         results = []
 
         for tool_call in tool_calls:
